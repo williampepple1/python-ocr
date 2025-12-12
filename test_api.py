@@ -1,6 +1,11 @@
 """
 Example script to test the OCR API endpoints
 Requires: pip install requests
+
+Usage:
+    python test_api.py                    # Test health and languages only
+    python test_api.py image.png          # Test with image (English)
+    python test_api.py image.png spa      # Test with image (Spanish)
 """
 
 import requests
