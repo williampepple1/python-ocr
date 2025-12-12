@@ -7,7 +7,7 @@ echo.
 
 REM Check if server is running
 echo Checking if server is running...
-curl -s http://localhost:8000/health >nul 2>&1
+curl -s http://localhost:8080/health >nul 2>&1
 if errorlevel 1 (
     echo ERROR: Server is not running!
     echo Please start the server first:

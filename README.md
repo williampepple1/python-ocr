@@ -84,40 +84,40 @@ python api.py
 
 Or using uvicorn directly:
 ```bash
-uvicorn api:app --host 0.0.0.0 --port 8000 --reload
+uvicorn api:app --host 0.0.0.0 --port 8080 --reload
 ```
 
-The API will be available at `http://localhost:8000`
+The API will be available at `http://localhost:8080`
 
 #### API Documentation
 
 Once the server is running, visit:
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
+- **Swagger UI**: http://localhost:8080/docs
+- **ReDoc**: http://localhost:8080/redoc
 
 #### API Endpoints
 
 **1. Root Endpoint**
 ```bash
-GET http://localhost:8000/
+GET http://localhost:8080/
 ```
 Returns API information and available endpoints.
 
 **2. Health Check**
 ```bash
-GET http://localhost:8000/health
+GET http://localhost:8080/health
 ```
 Returns server health status and Tesseract version.
 
 **3. List Available Languages**
 ```bash
-GET http://localhost:8000/languages
+GET http://localhost:8080/languages
 ```
 Returns list of available Tesseract languages.
 
 **4. Extract Text (Basic)**
 ```bash
-POST http://localhost:8000/ocr
+POST http://localhost:8080/ocr
 Content-Type: multipart/form-data
 
 Form Data:
@@ -127,7 +127,7 @@ Form Data:
 
 **5. Extract Text (Detailed)**
 ```bash
-POST http://localhost:8000/ocr/detailed
+POST http://localhost:8080/ocr/detailed
 Content-Type: multipart/form-data
 
 Form Data:
@@ -140,19 +140,19 @@ Form Data:
 **Using cURL:**
 ```bash
 # Basic OCR (English)
-curl -X POST "http://localhost:8000/ocr?lang=eng" \
+curl -X POST "http://localhost:8080/ocr?lang=eng" \
   -F "file=@image.png"
 
 # OCR with Chinese (Simplified) - UTF-8 supported
-curl -X POST "http://localhost:8000/ocr?lang=chi_sim" \
+curl -X POST "http://localhost:8080/ocr?lang=chi_sim" \
   -F "file=@chinese_image.png"
 
 # Multi-language OCR (English + Spanish + French)
-curl -X POST "http://localhost:8000/ocr?lang=eng+spa+fra" \
+curl -X POST "http://localhost:8080/ocr?lang=eng+spa+fra" \
   -F "file=@multilingual.png"
 
 # Detailed OCR with Japanese - Full Unicode support
-curl -X POST "http://localhost:8000/ocr/detailed?lang=jpn" \
+curl -X POST "http://localhost:8080/ocr/detailed?lang=jpn" \
   -F "file=@japanese_image.png"
 ```
 
@@ -163,7 +163,7 @@ import requests
 # Basic OCR (English)
 with open('image.png', 'rb') as f:
     response = requests.post(
-        'http://localhost:8000/ocr',
+        'http://localhost:8080/ocr',
         files={'file': f},
         params={'lang': 'eng'}
     )
@@ -173,7 +173,7 @@ with open('image.png', 'rb') as f:
 # OCR with Chinese - Full Unicode support
 with open('chinese.png', 'rb') as f:
     response = requests.post(
-        'http://localhost:8000/ocr',
+        'http://localhost:8080/ocr',
         files={'file': f},
         params={'lang': 'chi_sim'}
     )
@@ -184,7 +184,7 @@ with open('chinese.png', 'rb') as f:
 # Multi-language OCR
 with open('multilingual.png', 'rb') as f:
     response = requests.post(
-        'http://localhost:8000/ocr',
+        'http://localhost:8080/ocr',
         files={'file': f},
         params={'lang': 'eng+spa+fra'}  # English + Spanish + French
     )
@@ -194,7 +194,7 @@ with open('multilingual.png', 'rb') as f:
 # Detailed OCR with Arabic - Full Unicode support
 with open('arabic.png', 'rb') as f:
     response = requests.post(
-        'http://localhost:8000/ocr/detailed',
+        'http://localhost:8080/ocr/detailed',
         files={'file': f},
         params={'lang': 'ara'}
     )
@@ -210,7 +210,7 @@ with open('arabic.png', 'rb') as f:
 const formData = new FormData();
 formData.append('file', fileInput.files[0]);
 
-fetch('http://localhost:8000/ocr?lang=eng', {
+fetch('http://localhost:8080/ocr?lang=eng', {
   method: 'POST',
   body: formData
 })
@@ -283,7 +283,7 @@ You can combine multiple languages for better recognition of mixed-language docu
 **API Example:**
 ```bash
 # Extract text using English + Spanish + French
-curl -X POST "http://localhost:8000/ocr?lang=eng+spa+fra" \
+curl -X POST "http://localhost:8080/ocr?lang=eng+spa+fra" \
   -F "file=@multilingual_document.png"
 ```
 
@@ -293,7 +293,7 @@ import requests
 
 with open('multilingual.png', 'rb') as f:
     response = requests.post(
-        'http://localhost:8000/ocr',
+        'http://localhost:8080/ocr',
         files={'file': f},
         params={'lang': 'eng+spa+chi_sim'}  # English + Spanish + Chinese
     )
@@ -313,7 +313,7 @@ tesseract --list-langs
 
 Or use the API endpoint:
 ```bash
-curl http://localhost:8000/languages
+curl http://localhost:8080/languages
 ```
 
 ## Troubleshooting

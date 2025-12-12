@@ -11,9 +11,9 @@ if __name__ == "__main__":
     print("=" * 60)
     print()
     print("Server will be available at:")
-    print("  - API: http://localhost:8000")
-    print("  - Docs: http://localhost:8000/docs")
-    print("  - ReDoc: http://localhost:8000/redoc")
+    print("  - API: http://localhost:8080")
+    print("  - Docs: http://localhost:8080/docs")
+    print("  - ReDoc: http://localhost:8080/redoc")
     print()
     print("Press CTRL+C to stop the server")
     print("=" * 60)
@@ -23,7 +23,7 @@ if __name__ == "__main__":
         uvicorn.run(
             "api:app",
             host="0.0.0.0",
-            port=8000,
+            port=8080,
             reload=True,  # Auto-reload on code changes
             log_level="info"
         )
@@ -35,6 +35,6 @@ if __name__ == "__main__":
         print("\nMake sure:")
         print("  1. Tesseract OCR is installed")
         print("  2. All dependencies are installed: pip install -r requirements.txt")
-        print("  3. Port 8000 is available")
+        print("  3. Port 8080 is available")
         sys.exit(1)
 

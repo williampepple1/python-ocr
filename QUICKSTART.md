@@ -58,12 +58,12 @@ python api.py
 
 ### Option 2: Using uvicorn directly (recommended for development)
 ```bash
-uvicorn api:app --reload --host 0.0.0.0 --port 8000
+uvicorn api:app --reload --host 0.0.0.0 --port 8080
 ```
 
 You should see output like:
 ```
-INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
 INFO:     Started reloader process
 INFO:     Started server process
 INFO:     Waiting for application startup.
@@ -74,7 +74,7 @@ INFO:     Application startup complete.
 
 ### Method 1: Using the Interactive API Documentation (Easiest!)
 
-1. Open your browser and go to: **http://localhost:8000/docs**
+1. Open your browser and go to: **http://localhost:8080/docs**
 2. You'll see the Swagger UI with all endpoints
 3. Click on any endpoint (e.g., `POST /ocr`)
 4. Click "Try it out"
@@ -97,13 +97,13 @@ python test_api.py your_image.png
 
 ```bash
 # Health check
-curl http://localhost:8000/health
+curl http://localhost:8080/health
 
 # List available languages
-curl http://localhost:8000/languages
+curl http://localhost:8080/languages
 
 # Test OCR (replace image.png with your image file)
-curl -X POST "http://localhost:8000/ocr?lang=eng" \
+curl -X POST "http://localhost:8080/ocr?lang=eng" \
   -F "file=@image.png"
 ```
 
@@ -114,13 +114,13 @@ Create a test file `test_ocr.py`:
 import requests
 
 # Test health check
-response = requests.get("http://localhost:8000/health")
+response = requests.get("http://localhost:8080/health")
 print("Health:", response.json())
 
 # Test OCR
 with open('your_image.png', 'rb') as f:
     response = requests.post(
-        'http://localhost:8000/ocr',
+        'http://localhost:8080/ocr',
         files={'file': f},
         params={'lang': 'eng'}
     )
@@ -157,10 +157,10 @@ python ocr_tesseract.py image.png --detailed
 
 ### Error: "Language not found"
 - Check available languages: `tesseract --list-langs`
-- Or use the API: `curl http://localhost:8000/languages`
+- Or use the API: `curl http://localhost:8080/languages`
 - Install language packs if needed
 
-### Port 8000 already in use
+### Port 8080 already in use
 - Change the port in `api.py`: `uvicorn.run(app, host="0.0.0.0", port=8001)`
 - Or use: `uvicorn api:app --port 8001`
 
@@ -172,8 +172,8 @@ python ocr_tesseract.py image.png --detailed
 
 - [ ] Tesseract installed and accessible
 - [ ] Python dependencies installed
-- [ ] API server running on http://localhost:8000
-- [ ] Can access http://localhost:8000/docs
+- [ ] API server running on http://localhost:8080
+- [ ] Can access http://localhost:8080/docs
 - [ ] Health check returns "healthy"
 - [ ] Can upload and process an image via API
 - [ ] Command line tool works
