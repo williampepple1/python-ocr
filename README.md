@@ -12,6 +12,7 @@ A simple and powerful OCR (Optical Character Recognition) application using Tess
 - Detailed OCR information (bounding boxes, confidence scores)
 - Command-line interface
 - **REST API with FastAPI** - Serve OCR as web API endpoints with UTF-8 JSON responses
+- **PDF OCR Support** - Extract text from PDFs containing images/scanned content
 
 ## Prerequisites
 
@@ -135,6 +136,34 @@ Form Data:
 - lang: eng (optional, default: 'eng')
 ```
 
+**6. Extract Text from PDF**
+```bash
+POST http://localhost:8080/ocr/pdf
+Content-Type: multipart/form-data
+
+Form Data:
+- file: [PDF file]
+- lang: eng (optional, default: 'eng')
+- preprocess: false (optional) - Enable image preprocessing
+- psm: null (optional) - Page Segmentation Mode (0-13)
+- first_page: null (optional) - First page to process (1-indexed)
+- last_page: null (optional) - Last page to process (1-indexed)
+```
+
+**7. Extract Text from PDF (Detailed)**
+```bash
+POST http://localhost:8080/ocr/pdf/detailed
+Content-Type: multipart/form-data
+
+Form Data:
+- file: [PDF file]
+- lang: eng (optional, default: 'eng')
+- preprocess: false (optional) - Enable image preprocessing
+- psm: null (optional) - Page Segmentation Mode (0-13)
+- first_page: null (optional) - First page to process (1-indexed)
+- last_page: null (optional) - Last page to process (1-indexed)
+```
+
 #### Example API Usage
 
 **Using cURL:**
@@ -203,6 +232,21 @@ with open('arabic.png', 'rb') as f:
     print(f"Confidence: {result['average_confidence']}%")
     print(f"Word Count: {result['word_count']}")
     print(f"Encoding: {result['encoding']}")  # UTF-8
+
+# PDF OCR - Extract text from PDF with images
+with open('document.pdf', 'rb') as f:
+    response = requests.post(
+        'http://localhost:8080/ocr/pdf',
+        files={'file': f},
+        params={'lang': 'eng', 'preprocess': 'true'}
+    )
+    result = response.json()
+    print(f"Total pages: {result['total_pages']}")
+    print(f"Total words: {result['total_words']}")
+    print(f"Text: {result['text']}")  # All text combined
+    # Access per-page text
+    for page in result['pages']:
+        print(f"Page {page['page']}: {page['text']}")
 ```
 
 **Using JavaScript (fetch):**
@@ -370,6 +414,38 @@ python ocr_tesseract.py document.jpg -l spa -o spanish_text.txt
 # Get detailed OCR analysis
 python ocr_tesseract.py image.png --detailed
 ```
+
+## PDF OCR
+
+For extracting text from PDFs containing images or scanned content, see **[PDF_OCR_GUIDE.md](PDF_OCR_GUIDE.md)** for complete documentation.
+
+**Quick example:**
+```bash
+# Extract text from PDF
+curl -X POST "http://localhost:8080/ocr/pdf?lang=eng&preprocess=true" \
+  -F "file=@document.pdf"
+
+# Extract text from specific pages (pages 2-5)
+curl -X POST "http://localhost:8080/ocr/pdf?lang=eng&first_page=2&last_page=5" \
+  -F "file=@document.pdf"
+```
+
+**Python example:**
+```python
+import requests
+
+with open('document.pdf', 'rb') as f:
+    response = requests.post(
+        'http://localhost:8080/ocr/pdf',
+        files={'file': f},
+        params={'lang': 'eng', 'preprocess': 'true'}
+    )
+    result = response.json()
+    print(f"Total pages: {result['total_pages']}")
+    print(f"Text: {result['text']}")
+```
+
+**Note**: PDF OCR extracts embedded images directly from the PDF structure. No additional system dependencies required beyond Python packages.
 
 ## License
 
