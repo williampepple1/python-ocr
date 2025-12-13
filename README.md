@@ -333,9 +333,30 @@ pytesseract.pytesseract.tesseract_cmd = '/usr/local/bin/tesseract'
 pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
 ```
 
-### Language Not Found
+### Language Not Found / Unknown Languages
 
-Make sure you have installed the language data pack for Tesseract. For example, on Windows, you can download language packs from the Tesseract installer.
+**If your language is not supported by Tesseract:**
+
+1. **Use Auto Mode**: Set `lang` parameter to empty string `''` or `'auto'`
+   ```bash
+   curl -X POST "http://localhost:8080/ocr?lang=&preprocess=true" \
+     -F "file=@image.png"
+   ```
+
+2. **Enable Preprocessing**: Use `preprocess=true` to enhance image quality
+   ```bash
+   curl -X POST "http://localhost:8080/ocr?lang=&preprocess=true&psm=6" \
+     -F "file=@image.png"
+   ```
+
+3. **Try Related Languages**: If your language uses a similar script, try related languages
+   - Latin script → try `eng`, `fra`, `spa`
+   - Arabic script → try `ara`
+   - Cyrillic → try `rus`, `ukr`
+
+4. **See UNKNOWN_LANGUAGES.md**: For detailed guide on handling unsupported languages
+
+**Note**: For best results with unsupported languages, consider training a custom Tesseract model. See `UNKNOWN_LANGUAGES.md` for details.
 
 ## Example
 
